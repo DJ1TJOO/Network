@@ -15,7 +15,7 @@ import me.DJ1TJOO.server.Package;
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
-	private Client client;
+	private SocketConnector client;
 	private Integer id;
 
 	private boolean running;
@@ -46,7 +46,7 @@ public class Game extends Canvas implements Runnable {
 
 
 	public Game() {
-		setClient(new Client(this));
+		setClient(new SocketConnector(this));
 		this.addKeyListener(new KeyInput(client));
 	}
 	
@@ -124,11 +124,11 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 
-	public Client getClient() {
+	public SocketConnector getClient() {
 		return client;
 	}
 
-	public void setClient(Client client) {
+	public void setClient(SocketConnector client) {
 		this.client = client;
 	}
 

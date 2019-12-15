@@ -7,9 +7,9 @@ import me.DJ1TJOO.server.Package;
 
 public class KeyInput extends KeyAdapter {
 
-	Client client;
+	SocketConnector client;
 	
-	public KeyInput(Client client) {
+	public KeyInput(SocketConnector client) {
 		this.client = client;
 	}
 	

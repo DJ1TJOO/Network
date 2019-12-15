@@ -7,12 +7,12 @@ import java.net.Socket;
 
 import me.DJ1TJOO.server.Package;
 
-public class Client {
+public class SocketConnector {
 
 	InetAddress host = null;
 	private Game game;
     
-	public Client(Game game) {
+	public SocketConnector(Game game) {
 		try {
 			host = InetAddress.getLocalHost();
 		} catch (Exception e) {
@@ -32,7 +32,7 @@ public class Client {
 	public Package createSocket(Package pack) {
 		try {
 	    	@SuppressWarnings("resource")
-			Socket socket = new Socket(host.getHostName(), 2345);
+			Socket socket = new Socket(host.getHostAddress(), 2345);
 	        //write to socket using ObjectOutputStream
 	    	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 	        oos.writeObject(pack);
