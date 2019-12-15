@@ -12,11 +12,16 @@ public class SocketConnector {
 	InetAddress host = null;
 	private Game game;
 	Socket socket;
+    ObjectInputStream ois;	    	
+    ObjectOutputStream oos;
+
     
 	public SocketConnector(Game game, String host) {
 		try {
 			this.host = InetAddress.getByName(host);
 			this.socket = new Socket(host, 2345);
+			this.oos = new ObjectOutputStream(socket.getOutputStream());
+			this.ois = new ObjectInputStream(socket.getInputStream());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,12 +40,10 @@ public class SocketConnector {
 	public Package createSocket(Package pack) {
 		try {
 	        //write to socket using ObjectOutputStream
-	    	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 	        oos.writeObject(pack);
 	        //System.out.println("Sending request to Socket Server");
 	        
 	        //read the server response message
-	        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 	        Object object = ois.readObject();
 	        if(object instanceof Package) {
 	        	Package packR = (Package) object;
@@ -51,8 +54,8 @@ public class SocketConnector {
 	        }
 	        
 	        //close resources
-	        ois.close();
-	        oos.close();
+//	        ois.close();
+//	        oos.close();
 	        Thread.sleep(100);
 		        
 		} catch (Exception e) {
