@@ -4,12 +4,11 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import me.DJ1TJOO.client.state.StateManager;
 import me.DJ1TJOO.server.Package;
 
 public class Game extends Canvas implements Runnable {
@@ -21,7 +20,8 @@ public class Game extends Canvas implements Runnable {
 	private boolean running;
 	private Thread thread;
 	
-	private List<me.DJ1TJOO.server.Client> clients = new ArrayList<me.DJ1TJOO.server.Client>();
+	private StateManager stateManager;
+	private boolean connected;
 	
 	public static void main(String[] args) {
         JFrame frame = new JFrame("Game");
@@ -33,28 +33,50 @@ public class Game extends Canvas implements Runnable {
         frame.setVisible(true);
         frame.requestFocus();
         frame.setResizable(false);
+        frame.setFocusTraversalKeysEnabled(false);
+        canvas.setFocusTraversalKeysEnabled(false);
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-            	game.client.createSocket(new Package(0, 1, game.id));
-                System.exit(0);
+            	game.exit();	
             }
         });
 		game.start();
     }
-
-
-	public Game() {
-		setClient(new SocketConnector(this));
-		this.addKeyListener(new KeyInput(client));
+	
+	public void disconnect() {
+		if(isConnected()) {
+        	client.createSocket(new Package(0, 1, id));
+        	setConnected(false);
+    	}
+	}
+	
+	public void connect(String host) {
+		this.client = new SocketConnector(this, host);
+		if(!isConnected()) {
+			System.err.println("not connected");
+		} else {
+			System.err.println("connected to " + host);
+		}
+	}
+	
+	public void exit() {
+		disconnect();
+        System.exit(0);
 	}
 	
 	public synchronized void start() {
+		init();
 		thread = new Thread(this);
 		thread.start();
 		running = true;
 	}
+
+	private void init() {
+		stateManager = new StateManager(this);
+	}
+
 
 	public synchronized void stop() {
 		try {
@@ -104,24 +126,13 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.black);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		g.setColor(Color.white);
-		for (me.DJ1TJOO.server.Client client : clients) {
-			g.fillRect(client.getX(), client.getY(), 20, 50);
-		}
+		stateManager.render(g);
 		g.dispose();
 		bs.show();
 	}
 
-	@SuppressWarnings("unchecked")
 	private void tick() {
-		Package pack = (Package) client.createSocket(new Package(1, id));
-		//System.err.println(pack);
-		if(pack == null) {
-			stop();
-		}
-		if(pack.getId() == 1) {
-			clients = (List<me.DJ1TJOO.server.Client>) pack.getArgs()[0];
-		}
+		stateManager.tick();
 	}
 
 	public SocketConnector getClient() {
@@ -138,5 +149,48 @@ public class Game extends Canvas implements Runnable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+
+//	public List<Client> getClients() {
+//		return clients;
+//	}
+//
+//
+//	public void setClients(List<Client> clients) {
+//		this.clients = clients;
+//	}
+
+
+	public boolean isConnected() {
+		return connected;
+	}
+
+
+	public void setConnected(boolean connected) {
+		this.connected = connected;
+	}
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
+	public Thread getThread() {
+		return thread;
+	}
+
+	public void setThread(Thread thread) {
+		this.thread = thread;
+	}
+
+	public StateManager getStateManager() {
+		return stateManager;
+	}
+
+	public void setStateManager(StateManager stateManager) {
+		this.stateManager = stateManager;
 	}
 }

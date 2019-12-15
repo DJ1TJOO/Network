@@ -12,19 +12,20 @@ public class SocketConnector {
 	InetAddress host = null;
 	private Game game;
     
-	public SocketConnector(Game game) {
+	public SocketConnector(Game game, String host) {
 		try {
-			host = InetAddress.getByName("192.168.178.18");
+			this.host = InetAddress.getByName(host);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		this.setGame(game);
 		Package pack = createSocket(new Package(0));
 		if(pack == null) {
-			game.stop();
+			game.setConnected(false);
 		}
 		if(pack.getId() == 0) {
 			game.setId((Integer) pack.getArgs()[0]);
+			game.setConnected(true);
 			//System.err.println("Client id: " + game.getId());
 		}
 	}

@@ -123,7 +123,7 @@ public class Server implements Runnable {
 							}
 						}
 						if(client == null) {
-							System.err.println("Sending error to: " + pack.getArgs()[0]);
+							//System.err.println("Sending error to: " + pack.getArgs()[0]);
 							//write object to Socket
 				            oos.writeObject(new Package(2, 0));
 						} else {
@@ -160,7 +160,7 @@ public class Server implements Runnable {
 							default:
 								break;
 							}
-							System.err.println("Sending ok to: " + pack.getArgs()[0]);
+							//System.err.println("Sending ok to: " + pack.getArgs()[0]);
 							//write object to Socket
 				            oos.writeObject(new Package(2, 1));
 						}
