@@ -36,6 +36,7 @@ public class SocketConnector {
 		try {
 	    	@SuppressWarnings("resource")
 			Socket socket = new Socket(host, 2345);
+	    	socket.setTcpNoDelay(true);
 	        //write to socket using ObjectOutputStream
 	    	ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 	        oos.writeObject(pack);
