@@ -14,7 +14,7 @@ public class SocketConnector {
     
 	public SocketConnector(Game game) {
 		try {
-			host = InetAddress.getLocalHost();
+			host = InetAddress.getByName("192.168.178.18");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -32,7 +32,7 @@ public class SocketConnector {
 	public Package createSocket(Package pack) {
 		try {
 	    	@SuppressWarnings("resource")
-			Socket socket = new Socket(host.getHostAddress(), 2345);
+			Socket socket = new Socket(host, 2345);
 	        //write to socket using ObjectOutputStream
 	    	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 	        oos.writeObject(pack);
