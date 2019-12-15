@@ -1,5 +1,7 @@
 package me.DJ1TJOO.client;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
@@ -35,12 +37,13 @@ public class SocketConnector {
 	    	@SuppressWarnings("resource")
 			Socket socket = new Socket(host, 2345);
 	        //write to socket using ObjectOutputStream
-	    	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+	    	ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 	        oos.writeObject(pack);
+	        oos.flush();
 	        //System.out.println("Sending request to Socket Server");
 	        
 	        //read the server response message
-	        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+	        ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 	        Object object = ois.readObject();
 	        if(object instanceof Package) {
 	        	Package packR = (Package) object;
