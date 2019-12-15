@@ -11,10 +11,12 @@ public class SocketConnector {
 
 	InetAddress host = null;
 	private Game game;
+	Socket socket;
     
 	public SocketConnector(Game game, String host) {
 		try {
 			this.host = InetAddress.getByName(host);
+			this.socket = new Socket(host, 2345);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -32,8 +34,6 @@ public class SocketConnector {
 	
 	public Package createSocket(Package pack) {
 		try {
-	    	@SuppressWarnings("resource")
-			Socket socket = new Socket(host, 2345);
 	        //write to socket using ObjectOutputStream
 	    	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 	        oos.writeObject(pack);
