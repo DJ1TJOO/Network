@@ -19,6 +19,10 @@ public class Gui extends Element {
 	}
 	
 	public void render(Graphics g) {
+		Color beforeColor = g.getColor();
+		g.setColor(getColor());
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
+		g.setColor(beforeColor);
 		for (Element element : elements) {
 			element.render(g);
 		}
