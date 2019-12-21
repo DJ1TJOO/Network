@@ -63,7 +63,7 @@ public class Server implements Runnable {
 	private void tick() {
 		//System.err.println("d");
 		for (Client client : clients) {
-			client.tick();
+			client.tick(clients);
 		}
 	}
 

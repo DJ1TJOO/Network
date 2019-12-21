@@ -23,11 +23,11 @@ public class MenuMouseInput extends MouseAdapter {
 		int mX = e.getX();
 		int mY = e.getY();
 		
-		Gui gui = menuState.getGui();
+		Gui gui = menuState.getCurrentGui();
 		for (Element element : gui.getElements()) {
 			Rectangle rect = new Rectangle(element.getLastX() + gui.getX(), element.getLastY() + gui.getY(), element.getLastWidth(), element.getLastHeight());
 			if(rect.contains(new Point(mX, mY))){
-				menuState.setSelected(element.getId() - gui.getId());
+				menuState.setSelected(element.getId());
 			}
 		}
 	}
@@ -37,7 +37,7 @@ public class MenuMouseInput extends MouseAdapter {
 		int mX = e.getX();
 		int mY = e.getY();
 		
-		Gui gui = menuState.getGui();
+		Gui gui = menuState.getCurrentGui();
 		for (Element element : gui.getElements()) {
 			Rectangle rect = new Rectangle(element.getLastX() + gui.getX(), element.getLastY() + gui.getY(), element.getLastWidth(), element.getLastHeight());
 			if(rect.contains(new Point(mX, mY))){

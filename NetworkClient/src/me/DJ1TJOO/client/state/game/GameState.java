@@ -14,14 +14,19 @@ public class GameState extends State {
 
 	private Game game;
 	private List<Client> clients;
+	private String host;
 	
 	public GameState(Game game) {
 		super("game");
 		this.game = game;
+		this.host = "null";
 	}
 
 	public void init() {
-		game.connect("192.168.178.18");
+		if(host.equals("null")) {
+			return;
+		}
+		game.connect(host);
 		clients = new ArrayList<Client>();
 		this.setKeyInput(new GameKeyInput(game.getClient(), this));
 	}
@@ -60,6 +65,14 @@ public class GameState extends State {
 
 	public void setClients(List<Client> clients) {
 		this.clients = clients;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
 	}
 
 }

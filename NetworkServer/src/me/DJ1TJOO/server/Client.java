@@ -1,6 +1,7 @@
 package me.DJ1TJOO.server;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Client implements Serializable {
 
@@ -8,7 +9,7 @@ public class Client implements Serializable {
 	
 	private Integer id, x, y;
 	private Float velX, velY;
-	private Boolean up, down, left, right;
+	private Boolean up, down, left, right, oposit;
 
 	public Client(Integer id, Integer x, Integer y) {
 		this.id = id;
@@ -20,9 +21,20 @@ public class Client implements Serializable {
 		down = false;
 		left = false;
 		right = false;
+		oposit = false;
 	}
 
-	public void tick() {
+	public void tick(List<Client> clients) {
+		for (Client client : clients) {
+			if(client.getId() == getId()) {
+				continue;
+			}
+			if (client.getX() < (this.getX() + 20) && (client.getX() + 20) > this.getX() &&
+					client.getY() < (this.getY() + 50) && (client.getY() + 50) > this.getY()) {
+				oposit = true;
+				client.setOposit(true);
+			}
+		}
 		//System.err.println(x + "+" + y);
 		if(up && down)
 			setVelY(0f);
@@ -44,6 +56,11 @@ public class Client implements Serializable {
 			
 		velX = clamp(velX, -4, 4);
 		velY = clamp(velY, -4, 4);
+		if(oposit) {
+			velX = 0f;
+			velY = 0f;
+			oposit =false;
+		}
 		x = (int)(x + velX);
 		y = (int)(y + velY);
 		//System.err.println(x + "/" + y);
@@ -123,6 +140,14 @@ public class Client implements Serializable {
 
 	public void setRight(Boolean right) {
 		this.right = right;
+	}
+
+	public Boolean getOposit() {
+		return oposit;
+	}
+
+	public void setOposit(Boolean oposit) {
+		this.oposit = oposit;
 	}
 	
 }

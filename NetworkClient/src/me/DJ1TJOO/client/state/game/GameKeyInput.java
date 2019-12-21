@@ -1,12 +1,12 @@
 package me.DJ1TJOO.client.state.game;
 
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import me.DJ1TJOO.client.SocketConnector;
+import me.DJ1TJOO.client.state.KeyInput;
 import me.DJ1TJOO.server.Package;
 
-public class GameKeyInput extends KeyAdapter {
+public class GameKeyInput extends KeyInput {
 
 	SocketConnector client;
 	private GameState gameState;

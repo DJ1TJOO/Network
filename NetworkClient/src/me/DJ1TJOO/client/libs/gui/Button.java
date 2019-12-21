@@ -3,6 +3,7 @@ package me.DJ1TJOO.client.libs.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 
 public class Button extends Element {
@@ -169,6 +170,14 @@ public class Button extends Element {
 		
 		g.setColor(beforeColor);
 		g.setFont(beforeFont);
+	}
+
+	public void tick() {
+		
+	}
+
+	public void keyPressed(KeyEvent e) {
+		
 	}
 
 	public String getText() {

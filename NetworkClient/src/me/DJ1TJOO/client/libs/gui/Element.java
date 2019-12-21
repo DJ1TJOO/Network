@@ -2,6 +2,7 @@ package me.DJ1TJOO.client.libs.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 
 public abstract class Element {
 
@@ -9,6 +10,7 @@ public abstract class Element {
 	private Location vertical, horizontal;
 	private Gui gui;
 	private Color color;
+	private Boolean selected = false;
 	
 	public Element(int id, int x, int y, int width, int height, Color color, Gui gui) {
 		this.x = x;
@@ -25,6 +27,8 @@ public abstract class Element {
 	}
 
 	public abstract void render(Graphics g);
+	public abstract void tick();
+	public abstract void keyPressed(KeyEvent e);
 
 	public boolean intersects(int v1, int width1, int v2, int width2) {
 		for (int i = v1; i < v1 + width1; i++) {
@@ -139,6 +143,14 @@ public abstract class Element {
 
 	public void setHorizontal(Location horizontal) {
 		this.horizontal = horizontal;
+	}
+
+	public Boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(Boolean selected) {
+		this.selected = selected;
 	}
 
 }

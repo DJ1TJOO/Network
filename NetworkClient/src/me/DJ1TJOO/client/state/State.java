@@ -1,13 +1,12 @@
 package me.DJ1TJOO.client.state;
 
 import java.awt.Graphics;
-import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 
 public abstract class State {
 
 	private String name;
-	private KeyAdapter keyInput;
+	private KeyInput keyInput;
 	private MouseAdapter mouseInput;
 	
 	public State(String name) {
@@ -26,11 +25,11 @@ public abstract class State {
 	abstract public void tick();
 	abstract public void render(Graphics g);
 
-	public KeyAdapter getKeyInput() {
+	public KeyInput getKeyInput() {
 		return keyInput;
 	}
 
-	public void setKeyInput(KeyAdapter keyInput) {
+	public void setKeyInput(KeyInput keyInput) {
 		this.keyInput = keyInput;
 	}
 
