@@ -79,8 +79,7 @@ public class Client implements Serializable {
 				} else if (velX < 0) {
 					velX = 0f;
 					x = client.getX() + client.getWidth();
-				}
-				if (velY > 0) {
+				} else if (velY > 0) {
 					velY = 0f;
 					y = client.getY() - height;
 				} else if (velY < 0) {
