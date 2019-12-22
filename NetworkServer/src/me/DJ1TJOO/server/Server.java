@@ -103,7 +103,7 @@ public class Server implements Runnable {
 							}
 						} else {
 							currentClient++;
-							clients.add(new Client(currentClient, 0, 0));
+							clients.add(new Client(currentClient, 0, 0, 20, 50));
 							System.err.println("New client: " + currentClient);
 							//write object to Socket
 				            oos.writeObject(new Package(0, currentClient));

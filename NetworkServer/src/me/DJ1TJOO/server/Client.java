@@ -1,5 +1,6 @@
 package me.DJ1TJOO.server;
 
+import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,14 +8,16 @@ public class Client implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id, x, y;
+	private Integer id, x, y, width, height;
 	private Float velX, velY;
 	private Boolean up, down, left, right, oposit;
 
-	public Client(Integer id, Integer x, Integer y) {
+	public Client(Integer id, Integer x, Integer y, Integer width, Integer height) {
 		this.id = id;
 		this.x = x;
 		this.y = y;
+		this.width = width;
+		this.height = height;
 		velX = 0f;
 		velY = 0f;
 		up = false;
@@ -61,8 +64,31 @@ public class Client implements Serializable {
 			velY = 0f;
 			oposit =false;
 		}
+		
 		x = (int)(x + velX);
 		y = (int)(y + velY);
+		
+		for (Client client : clients) {
+			if(client.getId() == getId()) {
+				continue;
+			}
+			if(getBounds().intersects(client.getBounds())) {
+				if (velX > 0) {
+					velX = 0f;
+					x = client.getX() - width;
+				} else if (velX < 0) {
+					velX = 0f;
+					x = client.getX() + client.getWidth();
+				}
+				if (velY > 0) {
+					velY = 0f;
+					y = client.getY() - height;
+				} else if (velY < 0) {
+					velY = 0f;
+					y = client.getY() + client.getHeight();
+				}
+			}
+		}
 		//System.err.println(x + "/" + y);
 	}
 
@@ -148,6 +174,26 @@ public class Client implements Serializable {
 
 	public void setOposit(Boolean oposit) {
 		this.oposit = oposit;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
+
+	public Integer getWidth() {
+		return width;
+	}
+
+	public void setWidth(Integer width) {
+		this.width = width;
+	}
+	
+	public Rectangle getBounds() {
+		return new Rectangle(x,y,width,height);
 	}
 	
 }
