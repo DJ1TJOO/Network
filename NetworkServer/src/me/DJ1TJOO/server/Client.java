@@ -28,6 +28,9 @@ public class Client implements Serializable {
 	}
 
 	public void tick(List<Client> clients) {
+		x = (int)(x + velX);
+		y = (int)(y + velY);
+		
 		for (Client client : clients) {
 			if(client.getId() == getId()) {
 				continue;
@@ -65,21 +68,21 @@ public class Client implements Serializable {
 			oposit =false;
 		}
 		
-		x = (int)(x + velX);
-		y = (int)(y + velY);
-		
 		for (Client client : clients) {
 			if(client.getId() == getId()) {
 				continue;
 			}
-			if(getBounds().intersects(client.getBounds())) {
+			if(getBoundsX().intersects(client.getBoundsX())) {
 				if (velX > 0) {
 					velX = 0f;
 					x = client.getX() - width;
 				} else if (velX < 0) {
 					velX = 0f;
 					x = client.getX() + client.getWidth();
-				} else if (velY > 0) {
+				}
+			}
+			if(getBoundsY().intersects(client.getBoundsY())) {
+				if (velY > 0) {
 					velY = 0f;
 					y = client.getY() - height;
 				} else if (velY < 0) {
@@ -191,8 +194,12 @@ public class Client implements Serializable {
 		this.width = width;
 	}
 	
-	public Rectangle getBounds() {
-		return new Rectangle(x,y,width,height);
+	public Rectangle getBoundsX() {
+		return new Rectangle((int)(x+velX),y,(int)(width + velX/2),height);
+	}
+	
+	public Rectangle getBoundsY() {
+		return new Rectangle(x,(int)(y+velY),width,(int)(height + velY/2));
 	}
 	
 }
