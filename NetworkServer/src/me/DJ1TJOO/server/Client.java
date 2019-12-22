@@ -31,16 +31,6 @@ public class Client implements Serializable {
 		x = (int)(x + velX);
 		y = (int)(y + velY);
 		
-		for (Client client : clients) {
-			if(client.getId() == getId()) {
-				continue;
-			}
-			if (client.getX() < (this.getX() + 20) && (client.getX() + 20) > this.getX() &&
-					client.getY() < (this.getY() + 50) && (client.getY() + 50) > this.getY()) {
-				oposit = true;
-				client.setOposit(true);
-			}
-		}
 		//System.err.println(x + "+" + y);
 		if(up && down)
 			setVelY(0f);
@@ -62,17 +52,23 @@ public class Client implements Serializable {
 			
 		velX = clamp(velX, -4, 4);
 		velY = clamp(velY, -4, 4);
-		if(oposit) {
-			velX = 0f;
-			velY = 0f;
-			oposit =false;
-		}
 		
+		collision(clients);
+		//System.err.println(x + "/" + y);
+	}
+	
+	private void collision(List<Client> clients) {
 		for (Client client : clients) {
 			if(client.getId() == getId()) {
 				continue;
 			}
 			if(getBoundsX().intersects(client.getBoundsX())) {
+				if(client.getVelX() < 0) {
+					if(x < client.getX() + client.getWidth()/2)x = client.getX() - width;
+				} else if(client.getVelX() > 0) {
+					if(x > client.getX() + client.getWidth()/2)x = client.getX() + client.getWidth();
+				}
+				
 				if (velX > 0) {
 					velX = 0f;
 					x = client.getX() - width;
@@ -82,6 +78,12 @@ public class Client implements Serializable {
 				}
 			}
 			if(getBoundsY().intersects(client.getBoundsY())) {
+				if(client.getVelY() < 0) {
+					if(y > client.getY() + client.getHeight()/2)y = client.getY() - height;
+				} else if(client.getVelY() > 0) {
+					if(y > client.getY() + client.getHeight()/2)y = client.getY() + client.getHeight();
+				}
+				
 				if (velY > 0) {
 					velY = 0f;
 					y = client.getY() - height;
@@ -91,7 +93,6 @@ public class Client implements Serializable {
 				}
 			}
 		}
-		//System.err.println(x + "/" + y);
 	}
 
 	private Float clamp(Float f, int min, int max) {
