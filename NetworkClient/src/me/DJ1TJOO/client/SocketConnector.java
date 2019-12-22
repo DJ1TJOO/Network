@@ -48,6 +48,7 @@ public class SocketConnector {
 	        Object object = ois.readObject();
 	        if(object instanceof Package) {
 	        	Package packR = (Package) object;
+		        System.out.println("Message: " + packR.toString());
 		        return packR;
 	        } else {
 		        String message = (String) object;

@@ -1,6 +1,7 @@
 package me.DJ1TJOO.server;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Package implements Serializable {
 
@@ -29,5 +30,8 @@ public class Package implements Serializable {
 	public void setArgs(Object[] args) {
 		this.args = args;
 	}
-	
+
+	public String toString() {
+		return "Package [id=" + id + ", args=" + Arrays.toString(args) + "]";
+	}
 }
