@@ -10,7 +10,7 @@ public class Client implements Serializable {
 	
 	private Integer id, x, y, width, height;
 	private Float velX, velY;
-	private Boolean up, down, left, right, oposit;
+	private Boolean up, down, left, right;
 
 	public Client(Integer id, Integer x, Integer y, Integer width, Integer height) {
 		this.id = id;
@@ -24,7 +24,6 @@ public class Client implements Serializable {
 		down = false;
 		left = false;
 		right = false;
-		oposit = false;
 	}
 
 	public void tick(List<Client> clients) {
@@ -171,14 +170,6 @@ public class Client implements Serializable {
 		this.right = right;
 	}
 
-	public Boolean getOposit() {
-		return oposit;
-	}
-
-	public void setOposit(Boolean oposit) {
-		this.oposit = oposit;
-	}
-
 	public Integer getHeight() {
 		return height;
 	}
@@ -201,6 +192,13 @@ public class Client implements Serializable {
 	
 	public Rectangle getBoundsY() {
 		return new Rectangle(x,(int)(y+velY),width,(int)(height + velY/2));
+	}
+
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", velX="
+				+ velX + ", velY=" + velY + ", up=" + up + ", down=" + down + ", left=" + left + ", right=" + right
+				+ "]";
 	}
 	
 }

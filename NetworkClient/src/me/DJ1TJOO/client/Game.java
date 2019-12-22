@@ -101,10 +101,10 @@ public class Game extends Canvas implements Runnable {
 			lastTime = now;
 			while (delta >= 1) {
 				tick();
+				render();
 				delta--;
 			}
 			if (running)
-				render();
 			//frames++;
 
 			if (System.currentTimeMillis() - timer > 1000) {
